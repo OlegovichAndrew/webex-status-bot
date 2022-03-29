@@ -18,6 +18,11 @@ function Bot_Stop() {
 }
 
 function Bot_AskStatuses(options) {
+  if (!isWorkDay(new Date())) {
+    debugMessage('Ask Statuses was not executed. Not working day.');
+    return;
+  }
+
   const manualCall = !options || options && options.manualCall;
   const statusesAskedToday = BotCache.get(BotCache.Key.STATUSES_ASKED_TODAY);
 
@@ -72,6 +77,10 @@ function Bot_AskStatuses(options) {
 }
 
 function Bot_CheckStatuses(options) {
+  if (!isWorkDay(new Date())) {
+    debugMessage('Ask Statuses was not executed. Not working day.');
+    return;
+  }
   const statusesCollected = BotCache.get(BotCache.Key.STATUSES_COLLECTED);
   const manualCall = !options || options && options.manualCall;
   const webexClient = WebexClient();
@@ -107,6 +116,11 @@ function Bot_CheckStatuses(options) {
 }
 
 function Bot_SendAnyway(options) {
+  if (!isWorkDay(new Date())) {
+    debugMessage('Ask Statuses was not executed. Not working day.');
+    return;
+  }
+
   const statusesCollected = BotCache.get(BotCache.Key.STATUSES_COLLECTED);
   const manualCall = !options || options && options.manualCall;
   const webexClient = WebexClient();
