@@ -127,13 +127,18 @@ const BotUtils = {
     return new Date(dropTime).getTime() < new Date(dailyStatusCandidateMessage.created).getTime();
   },
 
-  processDailyStatus(user, rawStatus, webexClient) {
-    const forReport = appendMissingDot(rawStatus);
-
+  processDailyStatus: function (user, rawStatus, webexClient) {
+    var curRawStatus = rawStatus;
+    var statusHeader = ''.concat(BotUtils.getUserShortName(user, webexClient), ' has been working on:\n');
+    var dailyStatus = BotCache.get(BotCache.Key.dailyStatus(user));
+    if (dailyStatus) {
+      curRawStatus = ''.concat(dailyStatus.rawStatus, rawStatus ? '\n' : '', rawStatus);
+    }
+    var forReport = ''.concat(statusHeader, appendMissingDot(curRawStatus));
     return {
-      rawStatus: rawStatus,
+      rawStatus: curRawStatus,
       forReport: forReport,
-      statusIsFine: rawStatus.length >= Constants.MIN_STATUS_LENGTH,
+      statusIsFine: curRawStatus.length >= Constants.MIN_STATUS_LENGTH
     };
   },
 
