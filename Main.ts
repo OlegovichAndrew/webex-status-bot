@@ -8,6 +8,7 @@ function Bot_Restart() {
   WebexClient().createWebHook();
 
   checkTriggers();
+  // BotCache.put(BotCache.Key.STATUSES_COLLECTED, false);
   debugMessage('Bot restarted.');
 }
 
@@ -88,7 +89,7 @@ function Bot_CheckStatuses(options) {
     const usersWithoutStatus = dailyStatusesData.userStatusIssues.noStatus;
 
     Reporter.notifyHowManyMissed(usersWithoutStatus, usersWorkingToday.length, webexClient);
-    Reporter.sendReportAsChatMessage(dailyStatusesData, usersInfo, webexClient);
+    // Reporter.sendReportAsChatMessage(dailyStatusesData, usersInfo, webexClient);
 
     if (!usersWithoutStatus.length) {
       Reporter.sendReportAsEmail(statuses, webexClient);
@@ -102,6 +103,29 @@ function Bot_CheckStatuses(options) {
       });
       BotCache.put(BotCache.Key.USERS_WITHOUT_STATUS, usersWithoutStatus);
     }
+  }
+}
+
+function Bot_SendAnyway(options) {
+  const statusesCollected = BotCache.get(BotCache.Key.STATUSES_COLLECTED);
+  const manualCall = !options || options && options.manualCall;
+  const webexClient = WebexClient();
+
+  if (!statusesCollected && options && !options.manualCall) {
+    webexClient.sendMessageToRoom(MainConfig.operationsRoomId, 'Collecting daily statuses...');
+  }
+
+  if (manualCall || !statusesCollected) {
+    const usersInfo = Bot_CollectUsersInfo();
+    const usersWorkingToday = usersInfo.workingToday;
+
+    const dailyStatusesData = BotUtils.collectDailyStatusesData(usersWorkingToday, webexClient);
+    const statuses = dailyStatusesData.statuses;
+    const usersWithoutStatus = dailyStatusesData.userStatusIssues.noStatus;
+
+    Reporter.notifyHowManyMissed(usersWithoutStatus, usersWorkingToday.length, webexClient);
+
+    Reporter.sendReportAsEmail(statuses, webexClient);
   }
 }
 
