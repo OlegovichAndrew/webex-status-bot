@@ -140,6 +140,7 @@ function Bot_SendAnyway(options) {
     Reporter.notifyHowManyMissed(usersWithoutStatus, usersWorkingToday.length, webexClient);
 
     Reporter.sendReportAsEmail(statuses, webexClient);
+    Reporter.notifyHowManyMissedToStatusRoom(usersWithoutStatus, usersWorkingToday.length , webexClient)
   }
 }
 
