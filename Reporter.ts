@@ -153,9 +153,9 @@ const Reporter = (() => {
     notifyHowManyMissedToStatusRoom(usersWithoutStatus, all, webexClient) {
       try {
         const missed = usersWithoutStatus.length;
-        const noMissed = !missed;
-        const statTemplate = noMissed ? 'all' : fmt('%s of %s', all - missed, all);
-        webexClient.sendMessageToRoom(MainConfig.dailyStatusRoomId, `Got ${statTemplate} statuses${noMissed ? '' : '\n\n<@all>'}`);
+        // const noMissed = !missed;
+        // const statTemplate = noMissed ? 'all' : fmt('%s of %s', all - missed, all);
+        // webexClient.sendMessageToRoom(MainConfig.dailyStatusRoomId, `Got ${statTemplate} statuses${noMissed ? '' : '\n\n<@all>'}`);
         if (missed) {
           webexClient.sendMessageToRoom(MainConfig.dailyStatusRoomId,
               fmt('There are no statuses from: %s.', usersWithoutStatus.join(', ')));
