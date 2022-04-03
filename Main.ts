@@ -44,9 +44,8 @@ function Bot_AskStatuses(options) {
       webexClient.sendMessageToRoom(MainConfig.operationsRoomId, dailyStatus);
       const firstName = BotUtils.getUserFirstName(user, webexClient);
       const gotStatusReply = fmt(
-        'Hey, %s. You can send me a final version of your daily status before the moment they are collected.  \n' +
-        'Use `show status` at any time to check it.  \n' +
-        'Read the rules at %s.', firstName, getHelpPage());
+        'Hey, %s. You can send me a final version of your yesterday`s status.  \n' +
+        'ss - show your currently saved status.  \n' + 'ds - remove the saved status.  \n', firstName);
       try {
         webexClient.sendMessageToPerson(user, gotStatusReply);
       } catch (e) {
@@ -56,10 +55,10 @@ function Bot_AskStatuses(options) {
     });
 
     usersWithoutStatus.forEach(user => {
+      const firstName = BotUtils.getUserFirstName(user, webexClient);
       const askStatusReply = fmt(
-        'Please, send your daily status before the moment they are collected.  \n' +
-        'You can use `show status` at any time to check it.  \n' +
-        'Read the rules at %s.', getHelpPage());
+        'Hey %s, please share your status for yesterday.  \n' +
+        'ss - show your currently saved status.  \n' + 'ds - remove the saved status.  \n' , firstName);
       try {
         webexClient.sendMessageToPerson(user, askStatusReply);
       } catch (e) {
@@ -107,8 +106,7 @@ function Bot_CheckStatuses(options) {
       usersWithoutStatus.forEach(user => {
         const name = BotUtils.getUserFirstName(user, webexClient);
         webexClient.sendMessageToPerson(user,
-          `${warning} ${name}, I cannot send the final report without your daily status.  \n` +
-          'Please, send it as soon as possible!');
+          `${name}, still waiting for your yesterday's status.  \n`);
       });
       BotCache.put(BotCache.Key.USERS_WITHOUT_STATUS, usersWithoutStatus);
     }
@@ -138,9 +136,13 @@ function Bot_SendAnyway(options) {
     const usersWithoutStatus = dailyStatusesData.userStatusIssues.noStatus;
 
     Reporter.notifyHowManyMissed(usersWithoutStatus, usersWorkingToday.length, webexClient);
-
-    Reporter.sendReportAsEmail(statuses, webexClient);
     Reporter.notifyHowManyMissedToStatusRoom(usersWithoutStatus, usersWorkingToday.length , webexClient)
+    usersWithoutStatus.forEach(user => {
+      const name = BotUtils.getUserFirstName(user, webexClient);
+      webexClient.sendMessageToPerson(user,
+          `You missed your chance, send the status to your PM now.  \n`);
+    });
+    Reporter.sendReportAsEmail(statuses, webexClient);
   }
 }
 

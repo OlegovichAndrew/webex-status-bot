@@ -20,7 +20,7 @@ const Constants = {
     ', your guess is as good as mine.',
   ],
 
-  MIN_STATUS_LENGTH: 30,
+  MIN_STATUS_LENGTH: 10,
   WORKDAY_ACTIVITY_THRESHOLD: 20
 };
 

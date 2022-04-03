@@ -34,10 +34,7 @@ const Reporter = (() => {
     return `<div style="margin: 20px 0 20px 0">${
       statusMarkdown
         .replace(/\**(\w+ \w\.)\**/, '<b>$1</b>')
-        .replace(/\n(.+)/g, '\n<li>$1</li>')
-        .replace(/<li>[- *]+/g, '<li>')
-        .replace(/(.+)\n/, '$1\n<ul>\n')
-        .replace(/(.+)<\/li>$/, '$1<\/li>\n</ul>')
+        .replace(/\n(.+)/g, '\n<p>$1</p>')
     }</div>`;
   }
 
@@ -143,7 +140,7 @@ const Reporter = (() => {
         webexClient.sendMessageToRoom(MainConfig.operationsRoomId, `Got ${statTemplate} statuses${noMissed ? '' : '\n\n<@all>'}`);
         if (missed) {
           webexClient.sendMessageToRoom(MainConfig.operationsRoomId,
-            fmt('Waiting for statuses from: %s.', usersWithoutStatus.join(', ')));
+            fmt('There are no statuses from: %s.', usersWithoutStatus.join(', ')));
         }
       } catch (e) {
         debugObject(e);

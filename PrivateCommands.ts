@@ -14,6 +14,10 @@ function matchCmd(cmd) {
   return commandText => commandText.trim().match(reg);
 }
 
+function matchHelp(cmd) {
+  return cmd[0] == 'help' || cmd[0] == "Help";
+}
+
 function printCmd(cmd) {
   const abbrev = getFirstLetters(cmd);
   return `**${abbrev}** or **${cmd.toLowerCase()}**`;
@@ -117,7 +121,7 @@ const PrivateCommands = () => [
   {
     name: 'Non acceptable status',
     match(commandText) {
-      return commandText.trim().length <= 25 || capitalize(commandText) !== commandText;
+      return commandText.trim().length <= 20;
     },
     evaluate(commandMessage, webexClient) {
       webexClient.sendMessageToPerson(commandMessage.personEmail,
