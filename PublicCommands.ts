@@ -144,11 +144,22 @@ const PublicCommands = () => {
             const unknownUsers = groupedUsers.unknownUsers;
             const knownUsers = groupedUsers.knownUsers;
 
+
             if (unknownUsers.length) {
               let failedToAdd = [];
               unknownUsers.forEach(user => {
                 try {
                   webexClient.addPersonToRoom(user, MainConfig.dailyStatusRoomId, false);
+                  const firstName = BotUtils.getUserFirstName(user, webexClient);
+                  const greeting = fmt('Hey %s, I`m a bot who will ask your daily statuses.  \n' +
+                  'Nice to meet you and let me share a few tips for you.  \n' +
+                  '1. We collect statuses for yesterday.  \n' +
+                  '2. Status should start with a capital letter.  \n' +
+                  '3. Status shouldn`t start with words that start with a letter `H`.  \n' +
+                  '4. The best time to share your status is in range `10:00-15:00`.  \n' +
+                  '5. When you are on a sick leave, I recommend you sending a status anyway to me or your manager.   \n' +
+                  'Keep smiling. Have a great day!', firstName)
+                  webexClient.sendMessageToPerson(user, greeting)
                   debugMessage(`Added ${user} to Daily Status room`);
                   knownUsers.push(user);
                 } catch (e) {

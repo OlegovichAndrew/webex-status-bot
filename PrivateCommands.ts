@@ -14,6 +14,10 @@ function matchCmd(cmd) {
   return commandText => commandText.trim().match(reg);
 }
 
+function matchHelp(cmd) {
+  return cmd[0] == 'help' || cmd[0] == "Help";
+}
+
 function printCmd(cmd) {
   const abbrev = getFirstLetters(cmd);
   return `**${abbrev}** or **${cmd.toLowerCase()}**`;
