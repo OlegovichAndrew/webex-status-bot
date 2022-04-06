@@ -53,10 +53,13 @@ const Reporter = (() => {
           return;
         }
 
-        const subject = 'Daily status for ' + formatDate(new Date());
+        let yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+
+        const subject = 'Daily status for ' + formatDate(yesterday);
 
         const htmlBody =
-          `Hi all,<br/><br/>Here is the team’s status for today.<br/><br/><br/>${teamsStatus}<br/><br/>Thanks,<br/>${MainConfig.botName}`;
+          `Hi Sheldon,<br/><br/>Please find the team's status for yesterday.<br/><br/><br/>${teamsStatus}<br/><br/>Thanks,<br/>${MainConfig.botName}`;
 
         const to = MainConfig.dailyReportTo.join(',');
         const cc = [...MainConfig.managers, ...BotUtils.getTeamLeads()].join(',');

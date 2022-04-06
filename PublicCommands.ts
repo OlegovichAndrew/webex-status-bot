@@ -151,14 +151,13 @@ const PublicCommands = () => {
                 try {
                   webexClient.addPersonToRoom(user, MainConfig.dailyStatusRoomId, false);
                   const firstName = BotUtils.getUserFirstName(user, webexClient);
-                  const greeting = fmt('Hey %s, I`m a bot who will ask your daily statuses.  \n' +
-                  'Nice to meet you and let me share a few tips for you.  \n' +
-                  '1. We collect statuses for yesterday.  \n' +
-                  '2. Status should start with a capital letter.  \n' +
-                  '3. Status shouldn`t start with words that start with a letter `H`.  \n' +
-                  '4. The best time to share your status is in range `10:00-15:00`.  \n' +
-                  '5. When you are on a sick leave, I recommend you sending a status anyway to me or your manager.   \n' +
-                  'Keep smiling. Have a great day!', firstName)
+                  const botName = MainConfig.botName;
+                  const greeting = fmt('Hey %s, I`m %s , I\'ll be reaching you every day to ask for your status.  \n' +
+                  'Here are a few tips/rules to follow:  \n' +
+                  '- I collect statuses for yesterday (e.g. I ask you today, on Apr 1, you provide your status for March 31);  \n' +
+                  '- The status should start with a capital letter (any but not "H", don\'t even ask why);  \n' +
+                  '- You can share the status even before I ask: the best time is 10:00-15:00;  \n' +
+                  '- I won\'t force you to provide the status if you are on a sick leave, but be sure to provide it beforehand if you feel you\'re going to be out the next day.  \n', firstName, botName)
                   webexClient.sendMessageToPerson(user, greeting)
                   debugMessage(`Added ${user} to Daily Status room`);
                   knownUsers.push(user);
