@@ -44,7 +44,7 @@ function Bot_AskStatuses(options) {
       webexClient.sendMessageToRoom(MainConfig.operationsRoomId, dailyStatus);
       const firstName = BotUtils.getUserFirstName(user, webexClient);
       const gotStatusReply = fmt(
-        'Hey, %s. You can send me a final version of your yesterday`s status.  \n' +
+        'Hey, %s. please share your status for yesterday.   \n' +
         'ss - show your currently saved status.  \n' + 'ds - remove the saved status.  \n', firstName);
       try {
         webexClient.sendMessageToPerson(user, gotStatusReply);
