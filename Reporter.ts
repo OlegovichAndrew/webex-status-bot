@@ -34,7 +34,7 @@ const Reporter = (() => {
     return `<div style="margin: 20px 0 20px 0">${
       statusMarkdown
         .replace(/\**(\w+ \w\.)\**/, '<b>$1</b>')
-        .replace(/\n(.+)/g, '\n<p>$1</p>')
+        .replace(/\n(.+)/g, '\n<br/>$1')
     }</div>`;
   }
 
@@ -55,11 +55,14 @@ const Reporter = (() => {
 
         let yesterday = new Date();
         yesterday.setDate(yesterday.getDate() - 1);
+        if (isSunday(yesterday)) {
+          yesterday.setDate(yesterday.getDate() - 2)
+        }
 
-        const subject = 'Daily status for ' + formatDate(yesterday);
+        const subject = `Sirius and Pulsar teams' status for ` + formatDate(yesterday);
 
         const htmlBody =
-          `Hi Sheldon,<br/><br/>Please find the team's status for yesterday.<br/><br/><br/>${teamsStatus}<br/><br/>Thanks,<br/>${MainConfig.botName}`;
+          `Hi Sheldon,<br/><br/>Please find the teams' status for yesterday.<br/><br/><br/>${teamsStatus}<br/><br/><b>Mykola Kuchmii</b> | Project Manager`;
 
         const to = MainConfig.dailyReportTo.join(',');
         const cc = [...MainConfig.managers, ...BotUtils.getTeamLeads()].join(',');
@@ -67,7 +70,7 @@ const Reporter = (() => {
         if (webexClient.DEBUG) {
           webexClient.sendMessageToRoom(MainConfig.debugRoomId, fmt('```html  \n%s  \n```', htmlBody));
         } else {
-          const style = 'style="font-size:11pt;font-family:Calibri,Helvetica,sans-serif;"';
+          const style = 'style="font-size:11pt;font-family:Calibri,Helvetica,sans-serif;line-height:1;"';
           MailApp.sendEmail({to, cc, subject, htmlBody: `<div ${style}>${htmlBody}</div>`});
         }
 

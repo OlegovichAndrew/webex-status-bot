@@ -40,7 +40,7 @@ function formatDate(date) {
 
   const month = date.getMonth() + 1;
   const day = date.getDate();
-  return date.getFullYear() + '/' + prependZero(month) + '/' + prependZero(day);
+  return prependZero(month) + '/' + prependZero(day) + '/' + date.getFullYear();
 }
 
 function dateCode(date = null) {

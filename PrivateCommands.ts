@@ -117,7 +117,7 @@ const PrivateCommands = () => [
   {
     name: 'Non acceptable status',
     match(commandText) {
-      return commandText.trim().length <= 20;
+      return commandText.trim().length <= 1;
     },
     evaluate(commandMessage, webexClient) {
       webexClient.sendMessageToPerson(commandMessage.personEmail,

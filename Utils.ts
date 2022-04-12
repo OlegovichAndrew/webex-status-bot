@@ -129,7 +129,7 @@ const BotUtils = {
 
   processDailyStatus: function (user, rawStatus, webexClient) {
     var curRawStatus = rawStatus;
-    var statusHeader = ''.concat(BotUtils.getUserShortName(user, webexClient), ' has been working on:\n');
+    var statusHeader = ''.concat(BotUtils.getUserShortName(user, webexClient), ' worked on:\n');
     var dailyStatus = BotCache.get(BotCache.Key.dailyStatus(user));
     if (dailyStatus) {
       curRawStatus = ''.concat(dailyStatus.rawStatus, rawStatus ? '\n' : '', rawStatus);

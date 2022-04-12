@@ -20,8 +20,8 @@ const Constants = {
     ', your guess is as good as mine.',
   ],
 
-  MIN_STATUS_LENGTH: 10,
-  WORKDAY_ACTIVITY_THRESHOLD: 20
+  MIN_STATUS_LENGTH: 1,
+  WORKDAY_ACTIVITY_THRESHOLD: 1
 };
 
 const warning = '⚠️';
