@@ -33,7 +33,7 @@ function prependZero(num) {
 }
 
 /**
- * Converts date object into yyyy/mm/dd format
+ * Converts date object into mm/dd/yyyy format
  */
 function formatDate(date) {
   if (!date) return date;
