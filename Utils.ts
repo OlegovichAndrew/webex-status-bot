@@ -248,7 +248,7 @@ function getMonthLong(date?) {
   return _date.toLocaleString('en-us', {month: 'long'}).match(/\w+/)[0];
 }
 
-let holidays = null;
+let holidays = ["05.05.2022"];
 
 function isHoliday(date) {
   if (!holidays) {
